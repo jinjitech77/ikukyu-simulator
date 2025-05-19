@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/ikukyu-simulator/static/css/main.80ddde4a.css",
+    "main.js": "/ikukyu-simulator/static/js/main.72ca2f3e.js",
+    "static/js/488.fb4bc220.chunk.js": "/ikukyu-simulator/static/js/488.fb4bc220.chunk.js",
+    "index.html": "/ikukyu-simulator/index.html",
+    "main.80ddde4a.css.map": "/ikukyu-simulator/static/css/main.80ddde4a.css.map",
+    "main.72ca2f3e.js.map": "/ikukyu-simulator/static/js/main.72ca2f3e.js.map",
+    "488.fb4bc220.chunk.js.map": "/ikukyu-simulator/static/js/488.fb4bc220.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.80ddde4a.css",
+    "static/js/main.72ca2f3e.js"
+  ]
+}
