@@ -8,13 +8,15 @@ const MaternityLeaveCalculator = () => {
     paymentMonth: 'next', // 'current' or 'next'
   });
 
-  const defaultBirthDate = '2024-07-30'; // 7月30日
-  const defaultLeaveDate = '2024-09-25'; // 9月25日
+  // const defaultBirthDate = '2024-07-30'; // 7月30日
+  // const defaultLeaveDate = '2024-09-25'; // 9月25日
 
-  const [birthDate, setBirthDate] = useState(defaultBirthDate);
-  const [leaveStartDate, setLeaveStartDate] = useState(defaultLeaveDate);
-  const [monthlySalary, setMonthlySalary] = useState('260550');
-  
+  // const [birthDate, setBirthDate] = useState(defaultBirthDate);
+  // const [leaveStartDate, setLeaveStartDate] = useState(defaultLeaveDate);
+  // const [monthlySalary, setMonthlySalary] = useState('260550');
+const [birthDate, setBirthDate] = useState(''); // 空の文字列に変更
+const [leaveStartDate, setLeaveStartDate] = useState(''); // 空の文字列に変更
+const [monthlySalary, setMonthlySalary] = useState(''); // 空の文字列に変更
   // 計算結果
   const [calculations, setCalculations] = useState({
     salary80Percent: 0,
@@ -28,21 +30,22 @@ const MaternityLeaveCalculator = () => {
   const [periods, setPeriods] = useState([]);
   
   // 育休開始日が出産日に基づいて自動計算される（産後8週間後）
-  useEffect(() => {
-    if (birthDate && birthDate !== defaultBirthDate) {
-      const birthDateObj = new Date(birthDate);
-      // 産後8週間（56日）
-      const calculatedStartDate = new Date(birthDateObj);
-      calculatedStartDate.setDate(birthDateObj.getDate() + 56);
-      
-      // フォーマット変換
-      const year = calculatedStartDate.getFullYear();
-      const month = String(calculatedStartDate.getMonth() + 1).padStart(2, '0');
-      const day = String(calculatedStartDate.getDate()).padStart(2, '0');
-      
-      setLeaveStartDate(`${year}-${month}-${day}`);
-    }
-  }, [birthDate, defaultBirthDate]);
+// 育休開始日が出産日に基づいて自動計算される（産後8週間後）
+useEffect(() => {
+  if (birthDate) { // birthDateが空でない場合のみ実行
+    const birthDateObj = new Date(birthDate);
+    // 産後8週間（56日）
+    const calculatedStartDate = new Date(birthDateObj);
+    calculatedStartDate.setDate(birthDateObj.getDate() + 57);
+    
+    // フォーマット変換
+    const year = calculatedStartDate.getFullYear();
+    const month = String(calculatedStartDate.getMonth() + 1).padStart(2, '0');
+    const day = String(calculatedStartDate.getDate()).padStart(2, '0');
+    
+    setLeaveStartDate(`${year}-${month}-${day}`);
+  }
+}, [birthDate]);
 
   // 賃金月額から各割合の計算
   useEffect(() => {
@@ -381,7 +384,7 @@ const MaternityLeaveCalculator = () => {
               className="w-full p-2 border rounded"
               value={monthlySalary}
               onChange={(e) => setMonthlySalary(e.target.value)}
-              placeholder="例: 260550"
+              placeholder="例: 260000"
             />
           </div>
         </div>
@@ -540,7 +543,7 @@ const MaternityLeaveCalculator = () => {
           
           <div className="mt-4 p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
             <h3 className="font-semibold text-yellow-800">注意事項</h3>
-            <ul className="list-disc pl-5 mt-2 text-sm text-yellow-800">
+            <ul className="list-disc pl-5 mt-2 text-sm text-yellow-800 text-left">
               <li>このシミュレーターは参考情報です。賃金日額の上限額（15,690円）と下限額（2,869円）は考慮されていません。</li>
               <li>就労可能額を超えて就労した場合、給付金が減額または不支給となる場合があります。</li>
               <li>育児休業期間中は本来お子様との時間を大切にするものです。必要以上の就労は避け、心身の健康と育児のバランスを優先しましょう。</li>
