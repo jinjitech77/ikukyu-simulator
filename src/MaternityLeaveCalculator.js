@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 const MaternityLeaveCalculator = () => {
   // 状態変数の定義
   const [payrollSettings, setPayrollSettings] = useState({
-    cutoffDay: 'end', // 'end' or a number (1-28)
+    cutoffDay: 'end', // 'end' or a number (1-31)
     paymentDay: 10,   // 支払日（1-31）
     paymentMonth: 'next', // 'current' or 'next'
   });
@@ -149,7 +149,8 @@ useEffect(() => {
           cutoffDate = new Date(periodEnd);
           if (payrollSettings.cutoffDay === 'end') {
             // 月末締めの場合、次の月末
-            cutoffDate = new Date(cutoffDate.getFullYear(), cutoffDate.getMonth() + 1, 0);
+            const nextMonth = new Date(cutoffDate.getFullYear(), cutoffDate.getMonth() + 1, 1);
+            cutoffDate = new Date(nextMonth.getFullYear(), nextMonth.getMonth() + 1, 0);
           } else {
             // 指定日締めの場合
             const cutoffDay = parseInt(payrollSettings.cutoffDay, 10);
@@ -258,16 +259,16 @@ useEffect(() => {
 
   // 締め日の選択肢
   const cutoffDayOptions = [
-    { value: 'end', label: '月末' },
-    ...Array.from({ length: 28 }, (_, i) => ({ value: String(i + 1), label: `${i + 1}日` }))
+    { value: 'end', label: '月末締め' },
+    ...Array.from({ length: 31 }, (_, i) => ({ value: `${i + 1}`, label: `${i + 1}日締め` }))
   ];
 
   // 支払日の選択肢
   const paymentDayOptions = [
-    { value: 'end', label: '月末' },
+    { value: 'end', label: '月末払い' },
     ...Array.from({ length: 31 }, (_, i) => ({ 
-      value: String(i + 1), 
-      label: `${i + 1}日` 
+      value: `${i + 1}`, 
+      label: `${i + 1}日払い` 
     }))
   ];
 
@@ -380,7 +381,9 @@ useEffect(() => {
           <div className="mb-4">
             <label className="block text-sm font-medium mb-1">賃金月額（円）</label>
             <input 
-              type="number" 
+              type="text"
+              inputMode="numeric"
+              pattern="[0-9]*"
               className="w-full p-2 border rounded"
               value={monthlySalary}
               onChange={(e) => setMonthlySalary(e.target.value)}
